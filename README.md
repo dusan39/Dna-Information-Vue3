@@ -1,2 +1,2 @@
-# Dna-Informatiov-Vue3
+# Dna-Information-Vue3
  
