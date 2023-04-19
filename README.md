@@ -1,2 +1,2 @@
-# Configurator-Color-Bottle-Vue3
+# Dna-Information-Vue3
  
