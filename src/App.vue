@@ -10,8 +10,8 @@
 </template>
 
 <script setup>
-import analytics from "./components/Analytics.vue"
 
+import Analytics from "./components/Analytics.vue"
 
 </script>
 
