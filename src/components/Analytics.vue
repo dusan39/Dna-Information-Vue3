@@ -15,74 +15,48 @@ import Chart from 'chart.js/auto';
 import { onMounted } from 'vue';
 
 const CHART_API = import.meta.env.VITE_API_CHARTS
-let subscriptionsKeys
+/*let subscriptionsKeys
 let subscriptionsValues
 let impressionsKeys
 let impressionsValues
 let clicksKeys
 let clicksValues
 let avgTimeKeys
-let avgTimeValues
+let avgTimeValues*/
 
 
-const allData = async() => {
-  
-  let data
-  
-  try{
-    const response  = await axios.get(CHART_API)
 
-    console.log(response.data)
-    data = response.data
+let avgTime
 
-    let tmpKeys = Object.keys(response.data)
+function getAllData(){
+  axios.get(CHART_API)
+  .then(response => {
 
-    tmpKeys.forEach(el => {
-      console.log(el, '-' ,response.data[el])
-    })
+    let impressions = response.data.impressions
+    let clicks = response.data.clicks
 
-  }catch(err){
-    console.log(err)
-  }  
-  return data
+    console.log('dentro la funzione',impressions)
+
+    return {impressions, clicks}
+  })
+  .catch(error => {
+    console.log(error)
+  })  
 }
 
+let allData = getAllData()
 
-allData().then(el => {
+let impressions = allData.impressions
 
-  subscriptionsKeys = Object.keys(el.subscriptions.history)
-  subscriptionsValues = Object.values(el.subscriptions.history)
-  impressionsKeys = Object.keys(el.impressions.history)
-  impressionsValues = Object.values(el.impressions.history)
-  clicksKeys = Object.keys(el.clicks.history)
-  clicksValues = Object.values(el.clicks.history)
-  avgTimeKeys = Object.keys(el.avgTime.history)
-  avgTimeValues = Object.values(el.avgTime.history)
-  
-  console.log('subscriptions keys -> ',subscriptionsKeys)
-  console.log('subscriptions values -> ',subscriptionsValues)
-  console.log('impressions keys -> ',impressionsKeys)
-  console.log('impressions values -> ',impressionsValues)
-  console.log('clicks keys -> ',clicksKeys)
-  console.log('clicks values -> ',clicksValues)
-  console.log('avgTime keys -> ',avgTimeKeys)
-  console.log('avgTime values -> ',avgTimeValues)
-
-}).catch((error)=>{
-  console.error(error)
-})
-
-  const labels = [
-    subscriptionsKeys
-  ];
-
-  const data = {
-    labels: labels,
+console.log('fuori dalla funzione', impressions)
+/*
+  const data = {    
+    labels: Object.keys(),
     datasets: [{
       label: 'My First dataset',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: subscriptionsValues,
+      data: Object.values(),
     }]
   };
 
@@ -98,6 +72,74 @@ allData().then(el => {
     config
   );
   })
+*/
+/*
+const allData = async() => {
+  
+  let data
+  
+  try{
+    const response  = await axios.get(CHART_API)
+
+    console.log(response.data)
+    data = response.data
+
+    let tmpKeys = Object.keys(response.data)
+
+    /*tmpKeys.forEach(el => {
+      console.log(el, '-' ,response.data[el])
+    })
+
+  }catch(err){
+    console.log(err)
+  }  
+  return data
+}
+
+
+
+allData().then(el => {
+
+  subscriptionsKeys = Object.keys(el.subscriptions.history)
+  subscriptionsValues = Object.values(el.subscriptions.history)
+  impressionsKeys = Object.keys(el.impressions.history)
+  impressionsValues = Object.values(el.impressions.history)
+  clicksKeys = Object.keys(el.clicks.history)
+  clicksValues = Object.values(el.clicks.history)
+  avgTimeKeys = Object.keys(el.avgTime.history)
+  avgTimeValues = Object.values(el.avgTime.history)
+
+  subscriptions = el.subscriptions.history
+  impressions = el.impressions.history
+  clicks = el.clicks.history
+  avgTime = el.avgTime.history
+
+  console.log(subscriptions)
+  console.log(impressions)
+  console.log(clicks)
+  console.log(avgTime)
+  
+  console.log('subscriptions keys -> ',subscriptionsKeys)
+  console.log('subscriptions values -> ',subscriptionsValues)
+  console.log('impressions keys -> ',impressionsKeys)
+  console.log('impressions values -> ',impressionsValues)
+  console.log('clicks keys -> ',clicksKeys)
+  console.log('clicks values -> ',clicksValues)
+  console.log('avgTime keys -> ',avgTimeKeys)
+  console.log('avgTime values -> ',avgTimeValues)
+
+  return allData
+
+}).catch((error)=>{
+  console.error(error)
+})
+
+  const labels = [
+    subscriptionsKeys
+  ];
+  */
+
+
 
 </script>
 
