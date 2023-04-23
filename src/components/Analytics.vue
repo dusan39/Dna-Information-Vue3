@@ -1,9 +1,7 @@
 <template>
   <div class="contain">
     <p>ciao sono su analytics</p>
-    <div>
-      <canvas id="myChart"></canvas>
-    </div>
+    <canvas id="myChart"></canvas>
   </div>
 </template>
 
@@ -15,131 +13,53 @@ import Chart from 'chart.js/auto';
 import { onMounted } from 'vue';
 
 const CHART_API = import.meta.env.VITE_API_CHARTS
-/*let subscriptionsKeys
-let subscriptionsValues
-let impressionsKeys
-let impressionsValues
-let clicksKeys
-let clicksValues
-let avgTimeKeys
-let avgTimeValues*/
+var subscriptionsLabels = []
+var subscriptionsData = []
 
+async function createChart(){
+  await getSubscriptions()
 
+  const myChart = new Chart(document.getElementById('myChart'))
 
-let avgTime
-
-function getAllData(){
-  axios.get(CHART_API)
-  .then(response => {
-
-    let impressions = response.data.impressions
-    let clicks = response.data.clicks
-
-    console.log('dentro la funzione',impressions)
-
-    return {impressions, clicks}
-  })
-  .catch(error => {
-    console.log(error)
-  })  
-}
-
-let allData = getAllData()
-
-let impressions = allData.impressions
-
-console.log('fuori dalla funzione', impressions)
-/*
   const data = {    
-    labels: Object.keys(),
+    labels: subscriptionsLabels,
     datasets: [{
-      label: 'My First dataset',
+      label: 'Subscriptions',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: Object.values(),
+      data: subscriptionsData,
     }]
   };
 
   const config = {
-    type: 'line',
+    type: 'bar',
     data: data,
     options: {}
   };
-
-  onMounted(() => {
-    const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-  );
-  })
-*/
-/*
-const allData = async() => {
-  
-  let data
-  
-  try{
-    const response  = await axios.get(CHART_API)
-
-    console.log(response.data)
-    data = response.data
-
-    let tmpKeys = Object.keys(response.data)
-
-    /*tmpKeys.forEach(el => {
-      console.log(el, '-' ,response.data[el])
-    })
-
-  }catch(err){
-    console.log(err)
-  }  
-  return data
 }
 
+async function getSubscriptions(){
+ 
+  axios.get(CHART_API)
+  .then(response => {
+    let subscriptions = response.data.subscriptions
+    console.log(subscriptions)
 
+    let subscriptionsKey = Object.keys(subscriptions.history)
+    console.log(subscriptionsKey)
 
-allData().then(el => {
+    let subscriptionsValues = Object.values(subscriptions.history)
+    console.log(subscriptionsValues)
 
-  subscriptionsKeys = Object.keys(el.subscriptions.history)
-  subscriptionsValues = Object.values(el.subscriptions.history)
-  impressionsKeys = Object.keys(el.impressions.history)
-  impressionsValues = Object.values(el.impressions.history)
-  clicksKeys = Object.keys(el.clicks.history)
-  clicksValues = Object.values(el.clicks.history)
-  avgTimeKeys = Object.keys(el.avgTime.history)
-  avgTimeValues = Object.values(el.avgTime.history)
+    subscriptionsLabels = subscriptionsKey
+    subscriptionsData = subscriptionsValues
+  })
+  .catch(error => {
+    console.log(error)
+  })
+}
 
-  subscriptions = el.subscriptions.history
-  impressions = el.impressions.history
-  clicks = el.clicks.history
-  avgTime = el.avgTime.history
-
-  console.log(subscriptions)
-  console.log(impressions)
-  console.log(clicks)
-  console.log(avgTime)
-  
-  console.log('subscriptions keys -> ',subscriptionsKeys)
-  console.log('subscriptions values -> ',subscriptionsValues)
-  console.log('impressions keys -> ',impressionsKeys)
-  console.log('impressions values -> ',impressionsValues)
-  console.log('clicks keys -> ',clicksKeys)
-  console.log('clicks values -> ',clicksValues)
-  console.log('avgTime keys -> ',avgTimeKeys)
-  console.log('avgTime values -> ',avgTimeValues)
-
-  return allData
-
-}).catch((error)=>{
-  console.error(error)
-})
-
-  const labels = [
-    subscriptionsKeys
-  ];
-  */
-
-
+createChart()
 
 </script>
 
