@@ -1,10 +1,10 @@
 <template>
 
   <div class="chart-type-container">
-    <button @click="selectedChart = 'subscriptions'">Subscriptions</button>
-    <button @click="selectedChart = 'impressions'">Impressions</button>
-    <button @click="selectedChart = 'clicks'">Clicks</button>
-    <button @click="selectedChart = 'avgTime'">Average time</button>
+    <button @click="showChart('subscriptions')">Subscriptions</button>
+    <button @click="showChart('impressions')">Impressions</button>
+    <button @click="showChart('clicks')">Clicks</button>
+    <button @click="showChart('avgTime')">Average time</button>
   </div>
 
   <div class="chart-container">
@@ -34,8 +34,8 @@ var avgTimeData = []
 let selectedChart = 'subscriptions'
 
 const showChart = (chartString) => {
-  console.log('sono dentro showChart')
   selectedChart = chartString
+  console.log(selectedChart)
 }
 
 async function getAllData(){
@@ -86,7 +86,7 @@ async function createChartSubscriptions(){
   };
 
   const config = {
-    type: 'bar',
+    type: 'line',
     data: data,
     options: {}
   };
@@ -111,7 +111,7 @@ async function createChartImpressions(){
   };
 
   const config = {
-    type: 'bar',
+    type: 'line',
     data: data,
     options: {}
   };
@@ -136,7 +136,7 @@ async function createChartClicks(){
   };
 
   const config = {
-    type: 'bar',
+    type: 'line',
     data: data,
     options: {}
   };
@@ -161,7 +161,7 @@ async function createChartAvgTime(){
   };
 
   const config = {
-    type: 'bar',
+    type: 'line',
     data: data,
     options: {}
   };
