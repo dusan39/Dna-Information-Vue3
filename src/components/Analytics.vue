@@ -1,25 +1,79 @@
 <template>
-  <div class="contain">
-    <p>ciao sono su analytics</p>
-    <canvas id="myChart"></canvas>
-  </div>
-</template>
 
+  <div class="chart-type-container">
+    <button @click="selectedChart = 'subscriptions'">Subscriptions</button>
+    <button @click="selectedChart = 'impressions'">Impressions</button>
+    <button @click="selectedChart = 'clicks'">Clicks</button>
+    <button @click="selectedChart = 'avgTime'">Average time</button>
+  </div>
+
+  <div class="chart-container">
+    <canvas v-show="selectedChart === 'subscriptions'" id="myChartSubscriptions"></canvas>
+    <canvas v-show="selectedChart === 'impressions'" id="myChartImpressions"></canvas>
+    <canvas v-show="selectedChart === 'clicks'" id="myChartClicks"></canvas>
+    <canvas v-show="selectedChart === 'avgTime'" id="myChartAvgTime"></canvas>
+  </div>
+  
+</template>
 
 <script setup>
 
 import axios from 'axios'
 import Chart from 'chart.js/auto';
-import { onMounted } from 'vue';
 
 const CHART_API = import.meta.env.VITE_API_CHARTS
 var subscriptionsLabels = []
 var subscriptionsData = []
+var impressionsLabels = []
+var ImpressionsData = []
+var clicksLabels = []
+var clicksData = []
+var avgTimeLabels = []
+var avgTimeData = []
 
-async function createChart(){
-  await getSubscriptions()
+let selectedChart = 'subscriptions'
 
-  const myChart = new Chart(document.getElementById('myChart'))
+const showChart = (chartString) => {
+  console.log('sono dentro showChart')
+  selectedChart = chartString
+}
+
+async function getAllData(){
+ 
+  const response = await axios.get(CHART_API)
+  const subscriptions = response.data.subscriptions
+  const impressions = response.data.impressions
+  const clicks = response.data.clicks
+  const avgTime = response.data.avgTime
+
+   const subscriptionsKey = Object.keys(subscriptions.history)
+   const subscriptionsValues = Object.values(subscriptions.history)
+
+   const impressionsKey = Object.keys(impressions.history)
+   const impressionsValues = Object.values(impressions.history)
+
+   const clicksKey = Object.keys(clicks.history)
+   const clicksValues = Object.values(clicks.history)
+
+   const avgTimeKey = Object.keys(avgTime.history)
+   const avgTimeValues = Object.values(avgTime.history)
+
+   subscriptionsLabels = subscriptionsKey
+   subscriptionsData = subscriptionsValues
+
+   impressionsLabels = impressionsKey
+   ImpressionsData = impressionsValues
+
+   clicksLabels = clicksKey
+   clicksData = clicksValues
+
+   avgTimeLabels = avgTimeKey
+   avgTimeData = avgTimeValues
+
+}
+
+async function createChartSubscriptions(){
+  await getAllData()
 
   const data = {    
     labels: subscriptionsLabels,
@@ -36,31 +90,111 @@ async function createChart(){
     data: data,
     options: {}
   };
+
+  const myChartSubscriptions = new Chart(
+    document.getElementById('myChartSubscriptions'),
+    config,
+  );
 }
 
-async function getSubscriptions(){
- 
-  axios.get(CHART_API)
-  .then(response => {
-    let subscriptions = response.data.subscriptions
-    console.log(subscriptions)
+async function createChartImpressions(){
+  await getAllData()
 
-    let subscriptionsKey = Object.keys(subscriptions.history)
-    console.log(subscriptionsKey)
+  const data = {    
+    labels: impressionsLabels,
+    datasets: [{
+      label: 'Impressions',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: ImpressionsData,
+    }]
+  };
 
-    let subscriptionsValues = Object.values(subscriptions.history)
-    console.log(subscriptionsValues)
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
 
-    subscriptionsLabels = subscriptionsKey
-    subscriptionsData = subscriptionsValues
-  })
-  .catch(error => {
-    console.log(error)
-  })
+  const myChartImpressions = new Chart(
+    document.getElementById('myChartImpressions'),
+    config,
+  );
 }
 
-createChart()
+async function createChartClicks(){
+  await getAllData()
+
+  const data = {    
+    labels: clicksLabels,
+    datasets: [{
+      label: 'Clicks',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: clicksData,
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
+
+  const myChartClicks = new Chart(
+    document.getElementById('myChartClicks'),
+    config,
+  );
+}
+
+async function createChartAvgTime(){
+  await getAllData()
+
+  const data = {    
+    labels: avgTimeLabels,
+    datasets: [{
+      label: 'Avg Time',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: avgTimeData,
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
+
+  const myChartavgTime = new Chart(
+    document.getElementById('myChartAvgTime'),
+    config,
+  );
+}
+
+createChartSubscriptions()
+
+createChartImpressions()
+
+createChartClicks()
+
+createChartAvgTime()
 
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+  .chart-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  
+    .chart-type-container{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3%;
+    }
+  }
+
+</style>

@@ -1,10 +1,22 @@
 <template>
-  <div class="contain">
-    <p>ciao sono su analytics</p>
-    <div>
-      <canvas id="myChart"></canvas>
+
+  <!--
+    <canvas id="myChartImpressions"></canvas>
+    <canvas id="myChartClicks"></canvas>
+    <canvas id="myChartAvgTime"></canvas>
+   -->
+
+  <div class="subscriptions-container">
+    <canvas id="myChartSubscriptions"></canvas>
+
+    <div class="chart-type-container">
+      <button>Impressions</button>
+      <button>Clicks</button>
+      <button>Average time</button>
+      <button>Clicks</button>
     </div>
   </div>
+
 </template>
 
 
@@ -12,148 +24,97 @@
 
 import axios from 'axios'
 import Chart from 'chart.js/auto';
-import { onMounted } from 'vue';
 
 const CHART_API = import.meta.env.VITE_API_CHARTS
-/*let subscriptionsKeys
-let subscriptionsValues
-let impressionsKeys
-let impressionsValues
-let clicksKeys
-let clicksValues
-let avgTimeKeys
-let avgTimeValues*/
+var subscriptionsLabels = []
+var subscriptionsData = []
+var impressionsLabels = []
+var ImpressionsData = []
+var clicksLabels = []
+var clicksData = []
+var avgTimeLabels = []
+var avgTimeData = []
+
+async function getSubscriptions(){
+ 
+  const response = await axios.get(CHART_API)
+  const subscriptions = response.data.subscriptions
+ /* const impressions = response.data.impressions
+  const clicks = response.data.clicks
+  const avgTime = response.data.avgTime*/
+
+   const subscriptionsKey = Object.keys(subscriptions.history)
+   const subscriptionsValues = Object.values(subscriptions.history)
+
+   subscriptionsLabels = subscriptionsKey
+   subscriptionsData = subscriptionsValues
+
+/*   const impressionsKey = Object.keys(impressions.history)
+   const impressionsValues = Object.values(impressions.history)
+
+   const clicksKey = Object.keys(clicks.history)
+   const clicksValues = Object.values(clicks.history)
+
+   const avgTimeKey = Object.keys(avgTime.history)
+   const avgTimeValues = Object.values(avgTime.history)*/
 
 
 
-let avgTime
+/*   impressionsLabels = impressionsKey
+   ImpressionsData = impressionsValues
 
-function getAllData(){
-  axios.get(CHART_API)
-  .then(response => {
+   clicksLabels = clicksKey
+   clicksData = clicksValues
 
-    let impressions = response.data.impressions
-    let clicks = response.data.clicks
-
-    console.log('dentro la funzione impressions',impressions)
-    console.log('dentro la funzione clicks',clicks)
-
-    getAllData(impressions, clicks)
-   
-    return {impressions, clicks}
-  })
-  .catch(error => {
-    console.log(error)
-  })  
+   avgTimeLabels = avgTimeKey
+   avgTimeData = avgTimeValues
+*/
 }
 
-function showAllData(impressions, clicks){
-  return{
-    impressions: impressions,
-    clicks: clicks
-  } 
-}
+async function createChartSubscriptions(){
+  await getSubscriptions()
 
-console.log(showAllData())
-
-//const first = values.impressions
-//const second = values.clicks
-
-//console.log('fuori dalla funzione impressions', values.impressions)
-//console.log('fuori dalla funzione clicks', values.clicks)
-
-/*
   const data = {    
-    labels: Object.keys(),
+    labels: subscriptionsLabels,
     datasets: [{
-      label: 'My First dataset',
+      label: 'Subscriptions',
       backgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
-      data: Object.values(values.clicks),
+      data: subscriptionsData,
     }]
   };
 
   const config = {
-    type: 'line',
+    type: 'bar',
     data: data,
     options: {}
   };
 
-  onMounted(() => {
-    const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
+  const myChartSubscriptions = new Chart(
+    document.getElementById('myChartSubscriptions'),
+    config,
   );
-  })
-
-/*
-const allData = async() => {
-  
-  let data
-  
-  try{
-    const response  = await axios.get(CHART_API)
-
-    console.log(response.data)
-    data = response.data
-
-    let tmpKeys = Object.keys(response.data)
-
-    /*tmpKeys.forEach(el => {
-      console.log(el, '-' ,response.data[el])
-    })
-
-  }catch(err){
-    console.log(err)
-  }  
-  return data
 }
 
-
-
-allData().then(el => {
-
-  subscriptionsKeys = Object.keys(el.subscriptions.history)
-  subscriptionsValues = Object.values(el.subscriptions.history)
-  impressionsKeys = Object.keys(el.impressions.history)
-  impressionsValues = Object.values(el.impressions.history)
-  clicksKeys = Object.keys(el.clicks.history)
-  clicksValues = Object.values(el.clicks.history)
-  avgTimeKeys = Object.keys(el.avgTime.history)
-  avgTimeValues = Object.values(el.avgTime.history)
-
-  subscriptions = el.subscriptions.history
-  impressions = el.impressions.history
-  clicks = el.clicks.history
-  avgTime = el.avgTime.history
-
-  console.log(subscriptions)
-  console.log(impressions)
-  console.log(clicks)
-  console.log(avgTime)
-  
-  console.log('subscriptions keys -> ',subscriptionsKeys)
-  console.log('subscriptions values -> ',subscriptionsValues)
-  console.log('impressions keys -> ',impressionsKeys)
-  console.log('impressions values -> ',impressionsValues)
-  console.log('clicks keys -> ',clicksKeys)
-  console.log('clicks values -> ',clicksValues)
-  console.log('avgTime keys -> ',avgTimeKeys)
-  console.log('avgTime values -> ',avgTimeValues)
-
-  return allData
-
-}).catch((error)=>{
-  console.error(error)
-})
-
-  const labels = [
-    subscriptionsKeys
-  ];
-  */
-
-
+createChartSubscriptions()
 
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+
+  .subscriptions-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+
+
+    .chart-type-container{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 3%;
+    }
+  }
+
+</style>

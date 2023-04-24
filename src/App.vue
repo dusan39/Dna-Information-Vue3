@@ -1,10 +1,9 @@
 <template>
 
 <div class="container">
-  <analytics>
 
-  </analytics>
-
+  <analytics></analytics>
+  
 </div>
 
 </template>
