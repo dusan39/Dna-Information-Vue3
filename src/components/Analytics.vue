@@ -1,17 +1,31 @@
 <template>
 
-  <div class="chart-type-container">
-    <button @click="showChart('subscriptions')">Subscriptions</button>
-    <button @click="showChart('impressions')">Impressions</button>
-    <button @click="showChart('clicks')">Clicks</button>
-    <button @click="showChart('avgTime')">Average time</button>
-  </div>
-
   <div class="chart-container">
     <canvas v-show="selectedChart === 'subscriptions'" id="myChartSubscriptions"></canvas>
     <canvas v-show="selectedChart === 'impressions'" id="myChartImpressions"></canvas>
     <canvas v-show="selectedChart === 'clicks'" id="myChartClicks"></canvas>
     <canvas v-show="selectedChart === 'avgTime'" id="myChartAvgTime"></canvas>
+  </div>
+
+  <div class="chart-type-container">
+    <div class="chart-button-container">
+      <button @click="showChart('subscriptions')">Subscriptions</button>
+      <h4 id="subscriptions-total"></h4>
+    </div>
+
+    <div class="chart-button-container">
+      <button @click="showChart('impressions')">Impressions</button>
+      <h4>Total: 1000</h4>
+    </div>
+
+    <div class="chart-button-container">
+      <button @click="showChart('clicks')">Clicks</button>
+      <h4>Total: 1000</h4>
+    </div>
+    <div class="chart-button-container">
+      <button @click="showChart('avgTime')">Average time</button>
+      <h4>Total: 1000</h4>
+    </div>
   </div>
   
 </template>
@@ -23,6 +37,8 @@
 
   const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
 
+  let selectedChart = 'subscriptions'
+
   var subscriptionsLabels = []
   var subscriptionsData = []
   var impressionsLabels = []
@@ -32,7 +48,12 @@
   var avgTimeLabels = []
   var avgTimeData = []
 
-  let selectedChart = 'subscriptions'
+  let subscriptionsTotal = 0
+
+  let totalSubscriptionsLabel = document.querySelector('#subscriptions-total')
+  let totalImpressionsLabel = ''
+  let totalClicksLabel = ''
+  let totalAvgTimeLabel = ''
 
   const showChart = (chartString) => {
     selectedChart = chartString
@@ -49,15 +70,19 @@
 
     const subscriptionsKey = Object.keys(subscriptions.history)
     const subscriptionsValues = Object.values(subscriptions.history)
+    subscriptionsTotal = subscriptions.total
 
     const impressionsKey = Object.keys(impressions.history)
     const impressionsValues = Object.values(impressions.history)
+    const impressionsTotal = impressions.total
 
     const clicksKey = Object.keys(clicks.history)
     const clicksValues = Object.values(clicks.history)
+    const clicksTotal = clicks.total    
 
     const avgTimeKey = Object.keys(avgTime.history)
     const avgTimeValues = Object.values(avgTime.history)
+    const avgTimeTotal = avgTime.total    
 
     subscriptionsLabels = subscriptionsKey
     subscriptionsData = subscriptionsValues
@@ -75,6 +100,8 @@
 
   async function createChartSubscriptions(){
     await getAllData()
+    console.log(subscriptionsTotal)
+    totalSubscriptionsLabel.innerHTML = subscriptionsTotal
 
     const data = {    
       labels: subscriptionsLabels,
@@ -184,17 +211,30 @@
 </script>
 
 <style scoped lang="scss">
-
-  .chart-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
   
-    .chart-type-container{
+  .chart-type-container{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 3%;
+    margin-bottom: 3%;
+
+    .chart-button-container{
       display: flex;
-      justify-content: space-between;
-      margin-top: 3%;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid red;
+      border-radius: 20px;
+      padding: 50px 70px;
+
+      button{
+        display: flex;
+        padding: 10px;
+      }
+
+      p{
+        margin-bottom: 0;
+      }
     }
   }
 
