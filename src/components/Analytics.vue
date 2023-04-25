@@ -1,29 +1,29 @@
 <template>
 
   <div class="chart-container">
-    <canvas v-show="selectedChart === 'subscriptions'" id="myChartSubscriptions"></canvas>
-    <canvas v-show="selectedChart === 'impressions'" id="myChartImpressions"></canvas>
-    <canvas v-show="selectedChart === 'clicks'" id="myChartClicks"></canvas>
-    <canvas v-show="selectedChart === 'avgTime'" id="myChartAvgTime"></canvas>
+    <canvas v-show="selectedChart === 0" id="myChartSubscriptions"></canvas>
+    <canvas v-show="selectedChart === 1" id="myChartImpressions"></canvas>
+    <canvas v-show="selectedChart === 2" id="myChartClicks"></canvas>
+    <canvas v-show="selectedChart === 3" id="myChartAvgTime"></canvas>
   </div>
 
   <div class="chart-type-container">
     <div class="chart-button-container">
-      <button @click="showChart('subscriptions')">Subscriptions</button>
+      <button @click="showChart(0)">Subscriptions</button>
       <h4 id="subscriptions-total"></h4>
     </div>
 
     <div class="chart-button-container">
-      <button @click="showChart('impressions')">Impressions</button>
+      <button @click="showChart(1)">Impressions</button>
       <h4 id="impressions-total"></h4>
     </div>
 
     <div class="chart-button-container">
-      <button @click="showChart('clicks')">Clicks</button>
+      <button @click="showChart(2)">Clicks</button>
       <h4 id="clicks-total"></h4>
     </div>
     <div class="chart-button-container">
-      <button @click="showChart('avgTime')">Average time</button>
+      <button @click="showChart(3)">Average time</button>
       <h4 id="avgTime-total"></h4>
     </div>
   </div>
@@ -35,9 +35,9 @@
   import axios from 'axios'
   import Chart from 'chart.js/auto';
 
-  const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
+  import { watch, ref } from 'vue';
 
-  let selectedChart = 'subscriptions'
+  const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
 
   var subscriptionsLabels = []
   var subscriptionsData = []
@@ -53,11 +53,15 @@
   let clicksTotal
   let avgTimeTotal 
 
+  let selectedChart = ref(0)
 
-  const showChart = (chartString) => {
-    selectedChart = chartString
+
+  const showChart = (chartIndex) => {
+    selectedChart.value = chartIndex
     console.log(selectedChart)
   }
+
+  watch(() => selectedChart.value, () => {}, { deep: true });
 
   async function getAllData(){
   
