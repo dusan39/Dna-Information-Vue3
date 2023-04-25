@@ -1,30 +1,32 @@
 <template>
 
-  <div class="chart-container">
-    <canvas v-show="selectedChart === 0" id="myChartSubscriptions"></canvas>
-    <canvas v-show="selectedChart === 1" id="myChartImpressions"></canvas>
-    <canvas v-show="selectedChart === 2" id="myChartClicks"></canvas>
-    <canvas v-show="selectedChart === 3" id="myChartAvgTime"></canvas>
-  </div>
-
-  <div class="chart-type-container">
-    <div class="chart-button-container">
-      <button @click="showChart(0)">Subscriptions</button>
-      <h4 id="subscriptions-total"></h4>
+  <div class="container-charts-button">
+    <div class="chart-container">
+      <canvas v-show="selectedChart === 0" id="myChartSubscriptions"></canvas>
+      <canvas v-show="selectedChart === 1" id="myChartImpressions"></canvas>
+      <canvas v-show="selectedChart === 2" id="myChartClicks"></canvas>
+      <canvas v-show="selectedChart === 3" id="myChartAvgTime"></canvas>
     </div>
 
-    <div class="chart-button-container">
-      <button @click="showChart(1)">Impressions</button>
-      <h4 id="impressions-total"></h4>
-    </div>
+    <div class="chart-type-container">
+      <div v-motion-fade-visible-once class="chart-button-container">
+        <button @click="showChart(0)">Subscriptions</button>
+        <h4 id="subscriptions-total"></h4>
+      </div>
 
-    <div class="chart-button-container">
-      <button @click="showChart(2)">Clicks</button>
-      <h4 id="clicks-total"></h4>
-    </div>
-    <div class="chart-button-container">
-      <button @click="showChart(3)">Average time</button>
-      <h4 id="avgTime-total"></h4>
+      <div v-motion-fade-visible-once class="chart-button-container">
+        <button @click="showChart(1)">Impressions</button>
+        <h4 id="impressions-total"></h4>
+      </div>
+
+      <div v-motion-fade-visible-once class="chart-button-container">
+        <button @click="showChart(2)">Clicks</button>
+        <h4 id="clicks-total"></h4>
+      </div>
+      <div v-motion-fade-visible-once class="chart-button-container">
+        <button @click="showChart(3)">Average time</button>
+        <h4 id="avgTime-total"></h4>
+      </div>
     </div>
   </div>
   
@@ -34,7 +36,6 @@
 
   import axios from 'axios'
   import Chart from 'chart.js/auto';
-
   import { watch, ref } from 'vue';
 
   const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
@@ -131,8 +132,6 @@
     await getAllData()
     document.getElementById('impressions-total').innerHTML = 'Total: ' + impressionsTotal
 
-    console.log('prima di increment', impressionsTotal)
-
     function incrementImpressions(){
       let increment = impressionsTotal + 5
       document.getElementById('impressions-total').innerHTML = 'Total: ' + increment
@@ -227,38 +226,46 @@
 
 <style scoped lang="scss">
 
-  .chart-container{
-    width: 70%;
-    padding: 3% 5%;
-    border: solid 1px red;
-    border-radius: 20px;
-  }
-  
-  .chart-type-container{
+  .container-charts-button{
     display: flex;
-    justify-content: space-around;
-    margin-top: 3%;
-    margin-bottom: 3%;
-
-    .chart-button-container{
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      border: 1px solid red;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    .chart-container{
+      width: 90%;
+      padding: 2% 3%;
+      border: solid 1px red;
       border-radius: 20px;
-      padding: 50px;
-      margin: 5px;
+    }
+  
+    .chart-type-container{
+      display: flex;
+      justify-content: space-around;
+      margin-top: 3%;
 
-      button{
+      .chart-button-container{
         display: flex;
-        padding: 5%;
-      }
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        border: 1px solid red;
+        border-radius: 20px;
+        padding: 50px;
+        margin: 5px;
 
-      h4{
-        margin-bottom: 0;
+        button{
+          cursor: pointer;
+          padding: 10px 20px;
+          border-radius: 10px;
+          border: 1px solid red;
+        }
+
+        h4{
+          margin-bottom: 0;
+        }
       }
     }
   }
+  
 
 </style>
