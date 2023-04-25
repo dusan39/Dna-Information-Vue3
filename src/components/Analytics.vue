@@ -15,16 +15,16 @@
 
     <div class="chart-button-container">
       <button @click="showChart('impressions')">Impressions</button>
-      <h4>Total: 1000</h4>
+      <h4 id="impressions-total"></h4>
     </div>
 
     <div class="chart-button-container">
       <button @click="showChart('clicks')">Clicks</button>
-      <h4>Total: 1000</h4>
+      <h4 id="clicks-total"></h4>
     </div>
     <div class="chart-button-container">
       <button @click="showChart('avgTime')">Average time</button>
-      <h4>Total: 1000</h4>
+      <h4 id="avgTime-total"></h4>
     </div>
   </div>
   
@@ -48,12 +48,11 @@
   var avgTimeLabels = []
   var avgTimeData = []
 
-  let subscriptionsTotal = 0
+  let subscriptionsTotal 
+  let impressionsTotal 
+  let clicksTotal
+  let avgTimeTotal 
 
-  let totalSubscriptionsLabel = document.querySelector('#subscriptions-total')
-  let totalImpressionsLabel = ''
-  let totalClicksLabel = ''
-  let totalAvgTimeLabel = ''
 
   const showChart = (chartString) => {
     selectedChart = chartString
@@ -74,15 +73,15 @@
 
     const impressionsKey = Object.keys(impressions.history)
     const impressionsValues = Object.values(impressions.history)
-    const impressionsTotal = impressions.total
+    impressionsTotal = impressions.total
 
     const clicksKey = Object.keys(clicks.history)
     const clicksValues = Object.values(clicks.history)
-    const clicksTotal = clicks.total    
+    clicksTotal = clicks.total    
 
     const avgTimeKey = Object.keys(avgTime.history)
     const avgTimeValues = Object.values(avgTime.history)
-    const avgTimeTotal = avgTime.total    
+    avgTimeTotal = avgTime.total    
 
     subscriptionsLabels = subscriptionsKey
     subscriptionsData = subscriptionsValues
@@ -100,9 +99,8 @@
 
   async function createChartSubscriptions(){
     await getAllData()
-    console.log(subscriptionsTotal)
-    totalSubscriptionsLabel.innerHTML = subscriptionsTotal
-
+    document.getElementById('subscriptions-total').innerHTML = 'Total: ' + subscriptionsTotal
+    
     const data = {    
       labels: subscriptionsLabels,
       datasets: [{
@@ -127,6 +125,17 @@
 
   async function createChartImpressions(){
     await getAllData()
+    document.getElementById('impressions-total').innerHTML = 'Total: ' + impressionsTotal
+
+    console.log('prima di increment', impressionsTotal)
+
+    function incrementImpressions(){
+      let increment = impressionsTotal + 5
+      document.getElementById('impressions-total').innerHTML = 'Total: ' + increment
+      impressionsTotal = increment
+    }
+
+    const incrementDisplay = setInterval(incrementImpressions, 2000)
 
     const data = {    
       labels: impressionsLabels,
@@ -152,6 +161,7 @@
 
   async function createChartClicks(){
     await getAllData()
+    document.getElementById('clicks-total').innerHTML = 'Total: ' + clicksTotal
 
     const data = {    
       labels: clicksLabels,
@@ -177,6 +187,7 @@
 
   async function createChartAvgTime(){
     await getAllData()
+    document.getElementById('avgTime-total').innerHTML = 'Total: ' + avgTimeTotal
 
     const data = {    
       labels: avgTimeLabels,
@@ -211,6 +222,13 @@
 </script>
 
 <style scoped lang="scss">
+
+  .chart-container{
+    width: 70%;
+    padding: 3% 5%;
+    border: solid 1px red;
+    border-radius: 20px;
+  }
   
   .chart-type-container{
     display: flex;
@@ -221,18 +239,19 @@
     .chart-button-container{
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-around;
       align-items: center;
       border: 1px solid red;
       border-radius: 20px;
-      padding: 50px 70px;
+      padding: 50px;
+      margin: 5px;
 
       button{
         display: flex;
-        padding: 10px;
+        padding: 5%;
       }
 
-      p{
+      h4{
         margin-bottom: 0;
       }
     }
