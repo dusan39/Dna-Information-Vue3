@@ -9,17 +9,17 @@
     </div>
 
     <div class="chart-type-container">
-      <div v-motion-fade-visible-once class="chart-button-container">
+      <div class="chart-button-container">
         <button @click="showChart(0)">Subscriptions</button>
         <h4 id="subscriptions-total"></h4>
       </div>
 
-      <div v-motion-fade-visible-once class="chart-button-container">
+      <div class="chart-button-container">
         <button @click="showChart(1)">Impressions</button>
         <h4 id="impressions-total"></h4>
       </div>
 
-      <div v-motion-fade-visible-once class="chart-button-container">
+      <div class="chart-button-container">
         <button @click="showChart(2)">Clicks</button>
         <h4 id="clicks-total"></h4>
       </div>
@@ -55,7 +55,6 @@
   let avgTimeTotal 
 
   let selectedChart = ref(0)
-
 
   const showChart = (chartIndex) => {
     selectedChart.value = chartIndex
@@ -110,8 +109,8 @@
       labels: subscriptionsLabels,
       datasets: [{
         label: 'Subscriptions',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#19A7CE',
+        borderColor: '#19A7CE',
         data: subscriptionsData,
       }]
     };
@@ -144,8 +143,8 @@
       labels: impressionsLabels,
       datasets: [{
         label: 'Impressions',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#19A7CE',
+        borderColor: '#19A7CE',
         data: ImpressionsData,
       }]
     };
@@ -170,8 +169,8 @@
       labels: clicksLabels,
       datasets: [{
         label: 'Clicks',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#19A7CE',
+        borderColor: '#19A7CE',
         data: clicksData,
       }]
     };
@@ -196,8 +195,8 @@
       labels: avgTimeLabels,
       datasets: [{
         label: 'Avg Time',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: '#19A7CE',
+        borderColor: '#19A7CE',
         data: avgTimeData,
       }]
     };
@@ -224,17 +223,18 @@
 
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 
   .container-charts-button{
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    
     .chart-container{
       width: 90%;
-      padding: 2% 3%;
-      border: solid 1px red;
+      padding: 3% 4%;
+      border: solid 2px #F6F1F1;
       border-radius: 20px;
     }
   
@@ -248,24 +248,88 @@
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-        border: 1px solid red;
+        
+        background-color: #146C94;
+        border: 2px solid #F6F1F1;
         border-radius: 20px;
-        padding: 50px;
+        padding: 1rem 2rem;
         margin: 5px;
 
         button{
           cursor: pointer;
           padding: 10px 20px;
           border-radius: 10px;
-          border: 1px solid red;
+          background-color: #AFD3E2;
+          border: 2px solid #F6F1F1;
         }
 
         h4{
+          color: white;
+          margin-top: 10px;
           margin-bottom: 0;
         }
       }
     }
   }
-  
 
+  @media (max-width: 850px){
+
+    .chart-container{
+      width: 500px !important;
+    }
+
+    .chart-type-container{
+      display: grid !important;
+      column-gap: 30px;
+      row-gap: 30px;
+      grid-template-columns: 150px 150px;
+
+      .chart-button-container{
+        h4{
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 550px){
+
+    .chart-container{
+      width: 350px !important;
+    }
+
+    .chart-type-container{
+      display: grid !important;
+      column-gap: 30px;
+      row-gap: 30px;
+      grid-template-columns: 150px 150px;
+
+      .chart-button-container{
+        h4{
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 410px){
+
+    .chart-container{
+      width: 280px !important;
+    }
+
+    .chart-type-container{
+      display: grid !important;
+      column-gap: 10px;
+      row-gap: 10px;
+      grid-template-columns: 150px 150px;
+
+      .chart-button-container{
+        h4{
+          text-align: center;
+        }
+      }
+    }
+  }
+  
 </style>
