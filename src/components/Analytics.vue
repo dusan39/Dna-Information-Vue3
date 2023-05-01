@@ -37,7 +37,6 @@
   import axios from 'axios'
   import Chart from 'chart.js/auto';
   import { watch, ref } from 'vue';
-  import Button from './Button.vue'
   import Total from './Total.vue'
 
   const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
