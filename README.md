@@ -115,6 +115,14 @@ tutte queste funzioni vengono gestite da una singola chiamata, al caricamento de
   }
 ```
 
+Una piccola funzionalità aggiuntiva che ho introdotto è stato aggiornare il valore Total dell'oggetto Impressions, ovvero che ogni 5 secondi incremento il valore del totale tramite una variabile d'appoggio, tramite questa funzione:
 
+```JavaScript
+    function incrementImpressions(){
+      let increment = impressionsTotal + 5
+      document.getElementById('impressions-total').innerHTML = 'Total: ' + increment
+      impressionsTotal = increment
+    }
+```
 
 
