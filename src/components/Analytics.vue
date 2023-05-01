@@ -187,7 +187,6 @@
   }
 
   async function createChartClicks(){
-    await getAllData()
     document.getElementById('clicks-total').innerHTML = 'Total: ' + clicksTotal
 
     const data = {    
@@ -213,7 +212,6 @@
   }
 
   async function createChartAvgTime(){
-    await getAllData()
     document.getElementById('avgTime-total').innerHTML = 'Total: ' + avgTimeTotal
 
     const data = {    
@@ -330,6 +328,12 @@
       column-gap: 5px;
       row-gap: 5px;
       grid-template-columns: 150px 150px;
+    }
+  }
+
+  @media(min-width: 320px) and (max-width: 410px){
+    .chart-container{
+      width: 300px !important;
     }
   }
   
