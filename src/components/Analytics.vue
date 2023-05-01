@@ -120,12 +120,16 @@
     await createChartAvgTime()
   }
 
-  async function fetchDataAndCallFunctions() {
-    const response = await getAllData()
-    getSubscriptionsData(response)
-    getImpressionsData(response)
-    getClicksData(response)
-    getAvgTimeData(response)
+  async function getDataAndCallFunctions() {
+    try{
+      const response = await getAllData()
+      getSubscriptionsData(response)
+      getImpressionsData(response)
+      getClicksData(response)
+      getAvgTimeData(response)
+    }catch(error){
+      console.error(error)
+    }
   }
 
   async function createChartSubscriptions(){
@@ -236,7 +240,9 @@
     );
   }
 
-  fetchDataAndCallFunctions()
+  window.addEventListener('DOMContentLoaded', () => {
+    getDataAndCallFunctions()
+  });
 
 </script>
 
@@ -285,8 +291,6 @@
             background-color: #F6F1F1;
           }
         }
-
-
       }
     }
   }
@@ -329,4 +333,5 @@
       width: 300px !important;
     }
   }
+
 </style>
