@@ -307,7 +307,7 @@
       .chart-button-container{
 
         button{
-          color: white;
+          color: black;
         }
       }
     }
