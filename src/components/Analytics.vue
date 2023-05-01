@@ -280,7 +280,7 @@
 
         button{
           cursor: pointer;
-          padding: 10px 20px;
+          padding: 8px 16px;
           border-radius: 10px;
           background-color: #AFD3E2;
           border: 2px solid #F6F1F1;
