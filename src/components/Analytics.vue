@@ -323,10 +323,10 @@
     }
   }
 
-  @media (max-width: 410px){
+  @media (max-width: 410px) and (min-width: 320px){
 
     .chart-container{
-      width: 290px !important;
+      width: 310px !important;
     }
 
     .chart-type-container{
@@ -335,6 +335,10 @@
       row-gap: 5px;
       grid-template-columns: 150px 150px;
     }
+  }
+
+  @media screen {
+    
   }
   
 </style>
