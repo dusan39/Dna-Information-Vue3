@@ -303,12 +303,17 @@
     }
 
     .chart-type-container{
-      display: grid !important;
-      column-gap: 30px;
-      row-gap: 30px;
-      grid-template-columns: 150px 150px;
+
+      .chart-button-container{
+
+        button{
+          color: white;
+        }
+      }
     }
   }
+
+  
 
   @media (max-width: 550px){
 
