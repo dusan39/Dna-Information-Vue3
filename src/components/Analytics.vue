@@ -305,16 +305,12 @@
     }
 
     .chart-type-container{
-
-      .chart-button-container{
-
-        button{
-          color: black;
-        }
-      }
+      display: grid !important;
+      column-gap: 30px;
+      row-gap: 30px;
+      grid-template-columns: 150px 150px;
     }
   }
-
 
   @media (max-width: 550px){
 
@@ -323,10 +319,10 @@
     }
   }
 
-  @media (max-width: 410px) and (min-width: 320px){
+  @media (max-width: 410px){
 
     .chart-container{
-      width: 310px !important;
+      width: 290px !important;
     }
 
     .chart-type-container{
@@ -335,10 +331,6 @@
       row-gap: 5px;
       grid-template-columns: 150px 150px;
     }
-  }
-
-  @media screen {
-    
   }
   
 </style>

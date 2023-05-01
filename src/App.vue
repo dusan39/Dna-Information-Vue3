@@ -47,4 +47,14 @@
       flex-direction: column;
     }
   }
+
+  @media (max-width: 850px){
+    .title-container{
+
+      h1{
+        font-size: 18px;
+      }
+    }
+  }
+
 </style>
