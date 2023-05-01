@@ -5,7 +5,6 @@
 
   <div class="container">
     <section class="section-one-container">
-
       <analytics></analytics>
     </section>
       
@@ -28,8 +27,11 @@
     margin-bottom: 5%;
 
     h1{
-      padding: 15px;
+      padding: 20px 40px;
       text-align: center;
+      border-radius: 20px;
+      background-color: #19A7CE;
+      border: 2px solid #F6F1F1;
     }
   }
 

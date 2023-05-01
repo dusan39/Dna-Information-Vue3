@@ -23,7 +23,7 @@
         <button @click="showChart(2)">Clicks</button>
         <h4 id="clicks-total"></h4>
       </div>
-      <div v-motion-fade-visible-once class="chart-button-container">
+      <div class="chart-button-container">
         <button @click="showChart(3)">Average time</button>
         <h4 id="avgTime-total"></h4>
       </div>
@@ -39,11 +39,11 @@
   import { watch, ref } from 'vue';
 
   const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
-
+  
   var subscriptionsLabels = []
   var subscriptionsData = []
   var impressionsLabels = []
-  var ImpressionsData = []
+  var impressionsData = []
   var clicksLabels = []
   var clicksData = []
   var avgTimeLabels = []
@@ -64,45 +64,71 @@
   watch(() => selectedChart.value, () => {}, { deep: true });
 
   async function getAllData(){
-  
-    const response = await axios.get(VITE_API_CHARTS)
-    const subscriptions = response.data.subscriptions
-    const impressions = response.data.impressions
-    const clicks = response.data.clicks
-    const avgTime = response.data.avgTime
+    try{
+      const response = await axios.get(VITE_API_CHARTS)
+      return response
+    }catch(error){
+      console.error(error)
+    }      
+  }
 
+  async function getSubscriptionsData(response){
+    const subscriptions = response.data.subscriptions
     const subscriptionsKey = Object.keys(subscriptions.history)
     const subscriptionsValues = Object.values(subscriptions.history)
+
     subscriptionsTotal = subscriptions.total
-
-    const impressionsKey = Object.keys(impressions.history)
-    const impressionsValues = Object.values(impressions.history)
-    impressionsTotal = impressions.total
-
-    const clicksKey = Object.keys(clicks.history)
-    const clicksValues = Object.values(clicks.history)
-    clicksTotal = clicks.total    
-
-    const avgTimeKey = Object.keys(avgTime.history)
-    const avgTimeValues = Object.values(avgTime.history)
-    avgTimeTotal = avgTime.total    
-
     subscriptionsLabels = subscriptionsKey
     subscriptionsData = subscriptionsValues
 
+    await createChartSubscriptions()
+  }
+
+  async function getImpressionsData(response){
+    const impressions = response.data.impressions
+    const impressionsKey = Object.keys(impressions.history)
+    const impressionsValues = Object.values(impressions.history)
+
     impressionsLabels = impressionsKey
-    ImpressionsData = impressionsValues
+    impressionsData = impressionsValues
+    impressionsTotal = impressions.total
 
+    await createChartImpressions()
+  }
+
+  async function getClicksData(response){
+    const clicks = response.data.clicks
+    const clicksKey = Object.keys(clicks.history)
+    const clicksValues = Object.values(clicks.history)
+
+    clicksTotal = clicks.total
     clicksLabels = clicksKey
-    clicksData = clicksValues
+    clicksData = clicksValues 
 
+    await createChartClicks()
+  }
+
+  async function getAvgTimeData(response){
+    const avgTime = response.data.avgTime
+    const avgTimeKey = Object.keys(avgTime.history)
+    const avgTimeValues = Object.values(avgTime.history)
+    
+    avgTimeTotal = avgTime.total
     avgTimeLabels = avgTimeKey
-    avgTimeData = avgTimeValues
+    avgTimeData = avgTimeValues   
 
+    await createChartAvgTime()
+  }
+
+  async function fetchDataAndCallFunctions() {
+    const response = await getAllData()
+    getSubscriptionsData(response)
+    getImpressionsData(response)
+    getClicksData(response)
+    getAvgTimeData(response)
   }
 
   async function createChartSubscriptions(){
-    await getAllData()
     document.getElementById('subscriptions-total').innerHTML = 'Total: ' + subscriptionsTotal
     
     const data = {    
@@ -128,7 +154,6 @@
   }
 
   async function createChartImpressions(){
-    await getAllData()
     document.getElementById('impressions-total').innerHTML = 'Total: ' + impressionsTotal
 
     function incrementImpressions(){
@@ -145,7 +170,7 @@
         label: 'Impressions',
         backgroundColor: '#19A7CE',
         borderColor: '#19A7CE',
-        data: ImpressionsData,
+        data: impressionsData,
       }]
     };
 
@@ -213,13 +238,7 @@
     );
   }
 
-  createChartSubscriptions()
-
-  createChartImpressions()
-
-  createChartClicks()
-
-  createChartAvgTime()
+  fetchDataAndCallFunctions()
 
 </script>
 
@@ -261,12 +280,19 @@
           border-radius: 10px;
           background-color: #AFD3E2;
           border: 2px solid #F6F1F1;
+          transition: all 0.3s;
+
+          &:hover{
+            border: 2px solid #AFD3E2;
+            background-color: #F6F1F1;
+          }
         }
 
         h4{
           color: white;
           margin-top: 10px;
           margin-bottom: 0;
+          text-align: center;
         }
       }
     }
@@ -279,56 +305,35 @@
     }
 
     .chart-type-container{
-      display: grid !important;
-      column-gap: 30px;
-      row-gap: 30px;
-      grid-template-columns: 150px 150px;
 
       .chart-button-container{
-        h4{
-          text-align: center;
+
+        button{
+          color: black;
         }
       }
     }
   }
+
 
   @media (max-width: 550px){
 
     .chart-container{
       width: 350px !important;
     }
-
-    .chart-type-container{
-      display: grid !important;
-      column-gap: 30px;
-      row-gap: 30px;
-      grid-template-columns: 150px 150px;
-
-      .chart-button-container{
-        h4{
-          text-align: center;
-        }
-      }
-    }
   }
 
   @media (max-width: 410px){
 
     .chart-container{
-      width: 280px !important;
+      width: 290px !important;
     }
 
     .chart-type-container{
       display: grid !important;
-      column-gap: 10px;
-      row-gap: 10px;
+      column-gap: 5px;
+      row-gap: 5px;
       grid-template-columns: 150px 150px;
-
-      .chart-button-container{
-        h4{
-          text-align: center;
-        }
-      }
     }
   }
   
