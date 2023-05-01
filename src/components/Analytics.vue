@@ -11,21 +11,21 @@
     <div class="chart-type-container">
       <div class="chart-button-container">
         <button @click="showChart(0)">Subscriptions</button>
-        <h4 id="subscriptions-total"></h4>
+        <Total id="subscriptions-total"></Total>
       </div>
 
       <div class="chart-button-container">
-        <button @click="showChart(1)">Impressions</button>
-        <h4 id="impressions-total"></h4>
+        <button @click="showChart(1)">Impressions</button> 
+        <Total id="impressions-total"></Total>
       </div>
 
       <div class="chart-button-container">
         <button @click="showChart(2)">Clicks</button>
-        <h4 id="clicks-total"></h4>
+        <Total id="clicks-total"></Total>
       </div>
       <div class="chart-button-container">
         <button @click="showChart(3)">Average time</button>
-        <h4 id="avgTime-total"></h4>
+        <Total id="avgTime-total"></Total>
       </div>
     </div>
   </div>
@@ -37,6 +37,8 @@
   import axios from 'axios'
   import Chart from 'chart.js/auto';
   import { watch, ref } from 'vue';
+  import Button from './Button.vue'
+  import Total from './Total.vue'
 
   const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
   
@@ -58,7 +60,6 @@
 
   const showChart = (chartIndex) => {
     selectedChart.value = chartIndex
-    console.log(selectedChart)
   }
 
   watch(() => selectedChart.value, () => {}, { deep: true });
@@ -286,23 +287,21 @@
           }
         }
 
-        h4{
-          color: white;
-          margin-top: 10px;
-          margin-bottom: 0;
-          text-align: center;
-        }
+
       }
     }
   }
 
   @media (max-width: 850px){
-
     .chart-container{
       width: 500px !important;
     }
 
     .chart-type-container{
+      display: grid !important;
+      column-gap: 30px;
+      row-gap: 30px;
+      grid-template-columns: 150px 150px;
 
       .chart-button-container{
 
@@ -313,33 +312,22 @@
     }
   }
 
-  
-
   @media (max-width: 550px){
-
     .chart-container{
       width: 350px !important;
+    }
+
+    .chart-type-container{
+      column-gap: 5px;
+      row-gap: 5px;
+      grid-template-columns: 140px 140px;
     }
   }
 
   @media (max-width: 410px){
 
     .chart-container{
-      width: 290px !important;
-    }
-
-    .chart-type-container{
-      display: grid !important;
-      column-gap: 5px;
-      row-gap: 5px;
-      grid-template-columns: 150px 150px;
-    }
-  }
-
-  @media(min-width: 320px) and (max-width: 410px){
-    .chart-container{
       width: 300px !important;
     }
   }
-  
 </style>

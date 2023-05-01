@@ -1,13 +1,13 @@
 <template>
-        <div class="title-container">
-        <h1>Dna Information Analytics</h1>
-      </div>
+  
+  <div class="title-container">
+    <h1>Dna Information Analytics</h1>
+  </div>
 
   <div class="container">
     <section class="section-one-container">
       <analytics></analytics>
-    </section>
-      
+    </section>    
   </div>
 
 </template>
