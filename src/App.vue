@@ -1,7 +1,7 @@
 <template>
   
   <div class="title-container">
-    <h1>Dna Information Analytics</h1>
+    <h1>Dna Information Analytics aa</h1>
   </div>
 
   <div class="container">
