@@ -74,8 +74,6 @@ La Funzione riportata qua sopra è la medesima delle restanti, questa si occupa 
 
 ```JavaScript
   async function createChartSubscriptions(){
-    document.getElementById('subscriptions-total').innerHTML = 'Total: ' + subscriptionsTotal
-    
     const data = {    
       labels: subscriptionsLabels,
       datasets: [{
@@ -92,10 +90,7 @@ La Funzione riportata qua sopra è la medesima delle restanti, questa si occupa 
       options: {}
     };
 
-    const myChartSubscriptions = new Chart(
-      document.getElementById('myChartSubscriptions'),
-      config,
-    );
+const myChartSubscriptions = new Chart(document.getElementById('myChartSubscriptions'), config);
   }
 ```
 
@@ -113,16 +108,6 @@ tutte queste funzioni vengono gestite da una singola chiamata, al caricamento de
       console.error(error)
     }
   }
-```
-
-Una piccola funzionalità aggiuntiva che ho introdotto è stato aggiornare il valore Total dell'oggetto Impressions, ovvero che ogni 5 secondi incremento il valore del totale tramite una variabile d'appoggio, tramite questa funzione:
-
-```JavaScript
-    function incrementImpressions(){
-      let increment = impressionsTotal + 5
-      document.getElementById('impressions-total').innerHTML = 'Total: ' + increment
-      impressionsTotal = increment
-    }
 ```
 
 
