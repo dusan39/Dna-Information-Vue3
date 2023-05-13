@@ -32,15 +32,16 @@ In questo caso otteniamo 4 oggetti diversi che mostreremo a video in base al gra
 
 ## Struttura del progetto
 
-<img width="244" alt="Screenshot 2023-05-01 alle 16 22 10" src="https://user-images.githubusercontent.com/114413164/235466384-c0467646-7abf-4a2b-bb10-38c4521cc5b3.png">
+<img width="230" alt="Screenshot 2023-05-13 alle 12 56 30" src="https://github.com/dusan39/Dna-Information-Vue3/assets/114413164/dbb1aef2-aeb9-494d-b27d-f22cb357adec">
 
-Il progetto si sviluppa principalmente nel componente Analytics.vue dove avviene tutta la manipolazione dei dati e creazione dei charts, invece nel componente Total.vue viene utilizzato per mostrare a video il totale dei dati dei 4 oggetti e alla fine nell'App.vue viene strutturata la pagina.
+
+Il progetto si sviluppa su due componenti principali ovvero Chart.vue dove avviene tutta la manipolazione dei dati e creazione dei charts, invece nel componente Controller.vue viene utilizzato per creare i 4 controller che permettono il cambio dei dati da far visualizzare a video.
 
 ## Logiche del progetto
 
 Questo progetto è stato realizzato in maniera ben precisa e strutturato in tanti "piccoli" passaggi tutto questo partendo da una singola chiamata di una funzione che si propaga con la gestione dei dati, la creazione dei charts e la loro visualizzazione.
 
-Come prima cosa si cerca di ottenere i dati dalla chiamata API con la funzione asincrona getAllData() che ho riportato qui sotto:
+Come prima cosa si cerca di ottenere i dati dalla chiamata API con la funzione asincrona getAllData(), che ho gestito in un file esterno ai componenti ovvero api.js, che ho riportato qui sotto:
 
 ```JavaScript
   async function getAllData(){
@@ -74,8 +75,6 @@ La Funzione riportata qua sopra è la medesima delle restanti, questa si occupa 
 
 ```JavaScript
   async function createChartSubscriptions(){
-    document.getElementById('subscriptions-total').innerHTML = 'Total: ' + subscriptionsTotal
-    
     const data = {    
       labels: subscriptionsLabels,
       datasets: [{
@@ -92,10 +91,7 @@ La Funzione riportata qua sopra è la medesima delle restanti, questa si occupa 
       options: {}
     };
 
-    const myChartSubscriptions = new Chart(
-      document.getElementById('myChartSubscriptions'),
-      config,
-    );
+   const myChartSubscriptions = new Chart(document.getElementById('myChartSubscriptions'), config);
   }
 ```
 
@@ -114,15 +110,3 @@ tutte queste funzioni vengono gestite da una singola chiamata, al caricamento de
     }
   }
 ```
-
-Una piccola funzionalità aggiuntiva che ho introdotto è stato aggiornare il valore Total dell'oggetto Impressions, ovvero che ogni 5 secondi incremento il valore del totale tramite una variabile d'appoggio, tramite questa funzione:
-
-```JavaScript
-    function incrementImpressions(){
-      let increment = impressionsTotal + 5
-      document.getElementById('impressions-total').innerHTML = 'Total: ' + increment
-      impressionsTotal = increment
-    }
-```
-
-
