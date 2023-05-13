@@ -90,7 +90,7 @@ La Funzione riportata qua sopra è la medesima delle restanti, questa si occupa 
       options: {}
     };
 
-const myChartSubscriptions = new Chart(document.getElementById('myChartSubscriptions'), config);
+   const myChartSubscriptions = new Chart(document.getElementById('myChartSubscriptions'), config);
   }
 ```
 
