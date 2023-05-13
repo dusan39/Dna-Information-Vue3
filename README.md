@@ -54,7 +54,7 @@ Come prima cosa si cerca di ottenere i dati dalla chiamata API con la funzione a
   }
 ```
 
-dopo aver ottenuto la risposta, se tutto è andato bene ritorno la risposta che passo alle 4 funzioni che si occuperanno di gestire i dati di loro interesse e a loro volta queste funzioni chiamanto la funzione che permetterà la creazione dei charts:
+dopo aver ottenuto la risposta, se tutto è andato bene, la funzione viene esportata nei due componenti per ottenere i dati necessari ovvero uno per ottenere il totale delle 4 categorie invece nell'altro per creare i charts:
 
 
 ```JavaScript
@@ -110,3 +110,14 @@ tutte queste funzioni vengono gestite da una singola chiamata, al caricamento de
     }
   }
 ```
+
+Come funzionalità extra ho aggiunto che il valore impressionsTotal venga incrementato di 5 ogni 2 secondi tramite questa funzione:
+
+```JavaScript
+  function startIncrementingImpressions() {
+    setInterval(() => {
+      data.impressionsTotal += 5;
+    }, 2000);
+  }
+```
+
