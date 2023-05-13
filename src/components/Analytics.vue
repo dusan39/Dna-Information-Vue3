@@ -8,28 +8,29 @@
       <canvas v-show="selectedChart === 3" id="myChartAvgTime"></canvas>
     </div>
 
-    <div class="chart-type-container">
+ <!--   <div class="chart-type-container">
       <div class="chart-button-container">
         <button @click="showChart(0)">Subscriptions</button>
-        <Total id="subscriptions-total"></Total>
+        <h4 id="subscriptions-total"></h4>
       </div>
 
       <div class="chart-button-container">
         <button @click="showChart(1)">Impressions</button> 
-        <Total id="impressions-total"></Total>
+        <h4 id="impressions-total"></h4>
       </div>
 
       <div class="chart-button-container">
         <button @click="showChart(2)">Clicks</button>
-        <Total id="clicks-total"></Total>
+        <h4 id="clicks-total"></h4>
       </div>
       <div class="chart-button-container">
         <button @click="showChart(3)">Average time</button>
-        <Total id="avgTime-total"></Total>
+        <h4 id="avgTime-total"></h4>
       </div>
     </div>
-  </div>
   
+  -->
+</div>
 </template>
 
 <script setup>
@@ -37,23 +38,6 @@
   import axios from 'axios'
   import Chart from 'chart.js/auto';
   import { watch, ref } from 'vue';
-  import Total from './Total.vue'
-
-  const VITE_API_CHARTS = import.meta.env.VITE_API_CHARTS
-  
-  var subscriptionsLabels = []
-  var subscriptionsData = []
-  var impressionsLabels = []
-  var impressionsData = []
-  var clicksLabels = []
-  var clicksData = []
-  var avgTimeLabels = []
-  var avgTimeData = []
-
-  let subscriptionsTotal 
-  let impressionsTotal 
-  let clicksTotal
-  let avgTimeTotal 
 
   let selectedChart = ref(0)
 
@@ -63,7 +47,7 @@
 
   watch(() => selectedChart.value, () => {}, { deep: true });
 
-  async function getAllData(){
+ /* async function getAllData(){
     try{
       const response = await axios.get(VITE_API_CHARTS)
       return response
@@ -71,7 +55,7 @@
       console.error(error)
     }      
   }
-
+*/
   async function getSubscriptionsData(response){
     const subscriptions = response.data.subscriptions
     const subscriptionsKey = Object.keys(subscriptions.history)
@@ -120,7 +104,7 @@
     await createChartAvgTime()
   }
 
-  async function getDataAndCallFunctions() {
+ /* async function getDataAndCallFunctions() {
     try{
       const response = await getAllData()
       getSubscriptionsData(response)
@@ -130,7 +114,7 @@
     }catch(error){
       console.error(error)
     }
-  }
+  }*/
 
   async function createChartSubscriptions(){
     document.getElementById('subscriptions-total').innerHTML = 'Total: ' + subscriptionsTotal
@@ -240,9 +224,9 @@
     );
   }
 
-  window.addEventListener('DOMContentLoaded', () => {
+ /* window.addEventListener('DOMContentLoaded', () => {
     getDataAndCallFunctions()
-  });
+  });*/
 
 </script>
 
