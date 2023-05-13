@@ -19,6 +19,7 @@
       <Controller data-type="avgTime" @click="showChart(3)"></Controller>
     </div>   
   </div>
+  
 </template>
 
 <script setup>

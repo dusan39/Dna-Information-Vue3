@@ -1,6 +1,6 @@
 <template>
 
-  <canvas id="myChart"></canvas>
+  <canvas></canvas>
     
 </template>
 

@@ -33,9 +33,10 @@
     data.avgTimeTotal = response.data.avgTime.total;
   }
 
-  async function incrementImpressions(impressionsTotal){
-    let increment = impressionsTotal + 5
-    impressionsTotal = increment
+  function startIncrementingImpressions() {
+    setInterval(() => {
+      data.impressionsTotal += 5;
+    }, 2000);
   }
 
   const total = computed(() => {
@@ -70,7 +71,7 @@
 
   onMounted(() => {
     getTotalData(),
-    incrementImpressions()
+    startIncrementingImpressions()
   });
 
 </script>
